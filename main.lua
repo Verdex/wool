@@ -1,16 +1,4 @@
 
-local repo = require 'repo'
-local util = require 'util'
-local geo = require 'geo'
-
-local throw = require 'effects/throw'
-local mob = require 'draws/mob'
-
-local shake = require 'augs/shake'
-local shift = require 'augs/shift'
-local bounce = require 'augs/bounce'
-
-local damage = require 'actions/damage'
 
 data = {}
 
