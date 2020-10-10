@@ -1,5 +1,5 @@
 
-parse = require 'parse'
+parse = require 'util/parse'
 
 --[[
     { a = "blah"

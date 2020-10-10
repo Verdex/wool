@@ -1,5 +1,5 @@
 
-local seq = require 'seq'
+local seq = require 'util/seq'
 
 --[[
     repo {

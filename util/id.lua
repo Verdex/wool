@@ -1,10 +1,10 @@
 
 
 local base_id = 0
-local function gen_id() 
+local function gen() 
     base_id = base_id + 1
     return base_id
 end
 
-return { gen_id = gen_id 
+return { gen = gen
        }
