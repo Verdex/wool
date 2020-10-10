@@ -1,5 +1,4 @@
 
-local seq = require 'util/seq'
 
 --[[
     repo {
@@ -13,7 +12,7 @@ local seq = require 'util/seq'
 local function create_standard() 
     local obj = {}
 
-    obj.interface = 'container'
+    obj.interface = 'standard_repo'
     obj.items = {}
 
     function obj:iter()
