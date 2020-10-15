@@ -1,10 +1,11 @@
 
+local id = require 'util/id'
 
 --[[
     repo {
         iter : self<a> -> iter<a>
         get_by_id : self<a> -> id -> bool, a
-        add : self<a> -> a -> ()
+        add : self<a> -> a -> id
         remove_by_id : self<a> -> id -> ()
     }
 --]]
@@ -29,7 +30,9 @@ local function create_standard()
     end
 
     function obj:add(item)
+        item.id = id.gen()
         self.items[#self.items+1] = item
+        return item.id
     end
 
     function obj:remove_by_id(id)
