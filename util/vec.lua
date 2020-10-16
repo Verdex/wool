@@ -81,7 +81,7 @@ local function create_2d(x, y)
     end
 
     function obj:magnitude()
-        self:distance(create_2d(0, 0))
+        return self:distance(create_2d(0, 0))
     end
 
     return obj
@@ -161,7 +161,7 @@ local function create_color(r, g, b, a)
     end
 
     function obj:magnitude()
-        self:distance(create_color(0, 0, 0, 0))
+        return self:distance(create_color(0, 0, 0, 0))
     end
 
     return obj
