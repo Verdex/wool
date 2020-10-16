@@ -13,6 +13,11 @@
     distance : vec -> vec -> number
     distance_squared : vec -> vec -> number
 
+    unit : vec -> vec
+    unit_mut : vec -> vec
+
+    magnitude : vec -> number
+
 --]]
 
 local function create_2d(x, y)
@@ -63,6 +68,20 @@ local function create_2d(x, y)
 
     function obj:distance(v)
         return math.pow(self:distance_squared(v), 0.5)
+    end
+
+    function obj:unit()
+        local m = self:magnitude()
+        return self:scale(1/m)
+    end
+
+    function obj:unit_mut()
+        local m = self:magnitude()
+        return self:scale_mut(1/m)
+    end
+
+    function obj:magnitude()
+        self:distance(create_2d(0, 0))
     end
 
     return obj
@@ -129,6 +148,20 @@ local function create_color(r, g, b, a)
 
     function obj:distance(c)
         return math.pow(self:distance_squared(c), 0.5)
+    end
+    
+    function obj:unit()
+        local m = self:magnitude()
+        return self:scale(1/m)
+    end
+
+    function obj:unit_mut()
+        local m = self:magnitude()
+        return self:scale_mut(1/m)
+    end
+
+    function obj:magnitude()
+        self:distance(create_color(0, 0, 0, 0))
     end
 
     return obj
