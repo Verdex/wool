@@ -6,18 +6,43 @@
 -- return boolean, ids of colliders
 local function collides(move_id, vector)
     local suc, move = data.mobs:get_by_id( move_id )
-    
-    --local start_point = move.loc
-    --local end_point = start_point:add(vector) 
-    
+
+    if not suc then
+        return false, 'mob not found'
+    end
+
+    local direction = vector:unit()
+    local point = direction:scale_mut(move.radius)
+                           :add_mut(move.loc)
+
+
     for _, wall in data.walls:iter() do
-        if wall.collide( move.loc ) then
-            return wall.id
+        if wall.collide( point ) then
+            return 'wall', wall.id
         end
     end
 
-    return false
+    for _, mob in data.mobs:iter() do
+        if mob.id ~= move_id and mob.collide( point ) then
+            return 'mob', mob.id
+        end
+    end
+
+    return false, 'no collisions'
     
+end
+
+local function mob(loc, radius)
+    local dist_sq = radius * radius
+
+    local collide = function(v)
+        return loc:distance_squared(v) < dist_sq
+    end
+
+    return data.mobs:add({ loc = loc
+                         ; radius = radius
+                         ; collide = collide
+                         })
 end
 
 local function wall(start_vec, end_vec)
@@ -27,7 +52,7 @@ local function wall(start_vec, end_vec)
     if start_vec.x == end_vec.x then
 
         collide = function(v)
-            return v.x - 10 < line_end.x and v.x + 10 > line_end.x
+            return v.x - 2 < line_end.x and v.x + 2 > line_end.x
         end
 
     else
@@ -35,19 +60,20 @@ local function wall(start_vec, end_vec)
         local b = ((m * start_vec.x) - start_vec.y) * -1
 
         collide = function(v)
-            return v.y - 10 < (m * v.x) + b and v.y + 10 > (m * v.x) + b 
+            return v.y - 2 < (m * v.x) + b and v.y + 2 > (m * v.x) + b 
         end
 
     end
 
-    data.walls:add({ start_vec = start_vec
-                   ; end_vec = end_vec
-                   ; collide = collide
-                   })
+    return data.walls:add({ start_vec = start_vec
+                          ; end_vec = end_vec
+                          ; collide = collide
+                          })
 end
 
 
 return { wall = wall
+       ; mob = mob
        ; collides = collides
        }
 
