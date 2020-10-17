@@ -23,7 +23,7 @@ local function collides(move_id, vector)
     end
 
     for _, mob in data.mobs:iter() do
-        if mob.id ~= move_id and mob.collide( point ) then
+        if mob.id ~= move_id and mob.collide( point, mob.loc ) then
             return 'mob', mob.id
         end
     end
@@ -35,8 +35,8 @@ end
 local function mob(loc, radius)
     local dist_sq = radius * radius
 
-    local collide = function(v)
-        return loc:distance_squared(v) < dist_sq
+    local collide = function(v, s)
+        return s:distance_squared(v) < dist_sq
     end
 
     return data.mobs:add({ loc = loc
