@@ -51,7 +51,39 @@ local function create_standard()
     return obj
 end
 
+local function create_dict() 
+    local obj = {}
+
+    obj.interface = 'dictionary_repo'
+    obj.items = {}
+
+    function obj:iter()
+        return pairs(self.items)
+    end
+
+    function obj:get_by_id(id)
+        local t = self.items[id]
+        if t then
+            return true, t
+        else
+            return false
+        end
+    end
+
+    function obj:add(item)
+        item.id = id.gen()
+        self.items[item.id] = item
+        return item.id
+    end
+
+    function obj:remove_by_id(id)
+        self.items[id] = nil
+    end
+
+    return obj
+end
 
 
 return { create_standard = create_standard
+       ; create_dict = create_dict
        }
